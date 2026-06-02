@@ -2135,6 +2135,25 @@ void main() {
       final result = await future;
       expect(result, null);
     });
+
+    test('Dispose while future is pending completes it with current value',
+        () async {
+      final command = Command.createAsyncNoParam<String>(
+        () async {
+          await Future<void>.delayed(const Duration(milliseconds: 200));
+          return 'result';
+        },
+        initialValue: 'initial',
+      );
+
+      final future = command.runAsync();
+
+      await Future<void>.delayed(const Duration(milliseconds: 50));
+      command.dispose();
+
+      final result = await future;
+      expect(result, 'initial');
+    });
   });
 
   group('Command Utilities and Properties', () {

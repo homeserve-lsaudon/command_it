@@ -817,7 +817,7 @@ abstract class Command<TParam, TResult> extends CustomValueNotifier<TResult> {
       _errors.dispose();
       _handle?.dispose();
       if (!(_futureCompleter?.isCompleted ?? true)) {
-        _futureCompleter!.complete(null);
+        _futureCompleter!.complete(value);
         _futureCompleter = null;
       }
 
